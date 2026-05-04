@@ -38,10 +38,22 @@ export default function Hero() {
         <section
             id="top"
             data-testid="hero-section"
-            className="relative min-h-screen overflow-hidden hero-pattern pt-28 md:pt-36 pb-20"
+            className="relative min-h-screen overflow-hidden pt-28 md:pt-36 pb-20"
         >
+            {/* Background image */}
+            <div className="absolute inset-0">
+                <img
+                    src="https://images.pexels.com/photos/4948974/pexels-photo-4948974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1200&w=1920"
+                    alt="Premium wood fencing installation"
+                    className="w-full h-full object-cover"
+                />
+                {/* Light cream overlay — strong on left for text legibility, lighter on right to show imagery */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#fafaf7] via-[#fafaf7]/85 to-[#fafaf7]/20" />
+                <div className="absolute inset-0 bg-gradient-to-b from-[#fafaf7]/40 via-transparent to-[#fafaf7]/70" />
+            </div>
+
             {/* Decorative elements */}
-            <div className="absolute top-36 right-[-10%] w-[500px] h-[500px] bg-abf-orange/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-36 right-[-10%] w-[500px] h-[500px] bg-abf-orange/15 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-abf-wood/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8 grid lg:grid-cols-12 gap-10 items-center">

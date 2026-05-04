@@ -45,14 +45,12 @@ export default function Header() {
                         window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
                 >
-                    <div className="h-11 w-11 md:h-12 md:w-12 rounded-xl bg-slate-900 flex items-center justify-center overflow-hidden ring-1 ring-slate-200">
-                        <img
-                            src={BUSINESS.logo}
-                            alt="All Best Fencing logo"
-                            className="h-full w-full object-contain p-1"
-                        />
-                    </div>
-                    <div className="leading-tight">
+                    <img
+                        src={BUSINESS.logo}
+                        alt="All Best Fencing logo"
+                        className="h-12 md:h-14 w-auto object-contain"
+                    />
+                    <div className="leading-tight hidden sm:block">
                         <div className="font-display text-lg md:text-xl font-bold tracking-tight text-slate-900">
                             All Best Fencing
                         </div>

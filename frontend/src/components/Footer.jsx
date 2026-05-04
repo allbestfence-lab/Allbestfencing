@@ -11,13 +11,11 @@ export default function Footer() {
                 <div className="grid md:grid-cols-4 gap-10 md:gap-8 mb-20">
                     <div>
                         <div className="flex items-center gap-3 mb-5">
-                            <div className="h-12 w-12 rounded-xl bg-slate-900 flex items-center justify-center ring-1 ring-white/10 overflow-hidden">
-                                <img
-                                    src={BUSINESS.logo}
-                                    alt="All Best Fencing"
-                                    className="h-full w-full object-contain p-1"
-                                />
-                            </div>
+                            <img
+                                src={BUSINESS.logo}
+                                alt="All Best Fencing"
+                                className="h-14 w-auto object-contain"
+                            />
                             <div>
                                 <div className="font-display text-lg font-bold">
                                     {BUSINESS.name}
