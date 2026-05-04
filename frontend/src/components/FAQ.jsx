@@ -11,14 +11,14 @@ export default function FAQ() {
         <section
             id="faq"
             data-testid="faq-section"
-            className="relative py-24 md:py-32 px-5 md:px-8"
+            className="relative py-24 md:py-32 px-5 md:px-8 bg-abf-bg"
         >
             <div className="mx-auto max-w-4xl">
                 <div className="mb-12">
-                    <div className="text-xs tracking-[0.3em] uppercase text-abf-gold font-semibold mb-4">
+                    <div className="text-xs tracking-[0.3em] uppercase text-abf-wood font-bold mb-4">
                         FAQ
                     </div>
-                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter">
+                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter text-slate-900">
                         Straight <span className="text-gradient-warm">answers</span>.
                     </h2>
                 </div>
@@ -29,12 +29,12 @@ export default function FAQ() {
                             key={i}
                             value={`item-${i}`}
                             data-testid={`faq-item-${i}`}
-                            className="border-white/10"
+                            className="border-slate-200"
                         >
-                            <AccordionTrigger className="text-left font-display text-lg md:text-xl text-white hover:no-underline hover:text-abf-gold py-5">
+                            <AccordionTrigger className="text-left font-display text-lg md:text-xl text-slate-900 hover:no-underline hover:text-abf-orange py-5">
                                 {f.q}
                             </AccordionTrigger>
-                            <AccordionContent className="text-white/65 text-base leading-relaxed pb-5">
+                            <AccordionContent className="text-slate-600 text-base leading-relaxed pb-5">
                                 {f.a}
                             </AccordionContent>
                         </AccordionItem>

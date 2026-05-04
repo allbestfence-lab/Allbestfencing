@@ -42,23 +42,26 @@ export default function QuoteSection() {
         }
     };
 
+    const inputBase =
+        "w-full bg-slate-50 border border-slate-200 focus:border-abf-orange focus:bg-white focus:ring-2 focus:ring-abf-orange/20 transition-all rounded-lg px-4 py-3.5 outline-none placeholder:text-slate-400 text-slate-900";
+
     return (
         <section
             id="quote"
             data-testid="quote-section"
-            className="relative py-24 md:py-32 px-5 md:px-8 overflow-hidden"
+            className="relative py-24 md:py-32 px-5 md:px-8 overflow-hidden bg-white"
         >
-            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,122,0,0.15),transparent_60%)]" />
+            <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,122,0,0.08),transparent_60%)]" />
 
             <div className="mx-auto max-w-5xl">
                 <div className="text-center mb-12">
-                    <div className="text-xs tracking-[0.3em] uppercase text-abf-gold font-semibold mb-4">
+                    <div className="text-xs tracking-[0.3em] uppercase text-abf-wood font-bold mb-4">
                         Request a quote
                     </div>
-                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter">
+                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter text-slate-900">
                         Tell us about your <span className="text-gradient-warm">project</span>.
                     </h2>
-                    <p className="mt-5 text-white/60 text-base md:text-lg max-w-xl mx-auto">
+                    <p className="mt-5 text-slate-600 text-base md:text-lg max-w-xl mx-auto">
                         Fill in the details — a specialist will get back to you
                         within 2 business hours with pricing and scheduling.
                     </p>
@@ -67,7 +70,7 @@ export default function QuoteSection() {
                 <form
                     onSubmit={onSubmit}
                     data-testid="full-quote-form"
-                    className="glass rounded-3xl p-6 md:p-10 grid md:grid-cols-2 gap-4"
+                    className="bg-white rounded-3xl p-6 md:p-10 grid md:grid-cols-2 gap-4 border border-slate-200 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.12)]"
                 >
                     <input
                         type="text"
@@ -77,7 +80,7 @@ export default function QuoteSection() {
                         onChange={(e) =>
                             setForm({ ...form, name: e.target.value })
                         }
-                        className="bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none placeholder:text-white/40"
+                        className={inputBase}
                     />
                     <input
                         type="tel"
@@ -87,7 +90,7 @@ export default function QuoteSection() {
                         onChange={(e) =>
                             setForm({ ...form, phone: e.target.value })
                         }
-                        className="bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none placeholder:text-white/40"
+                        className={inputBase}
                     />
                     <input
                         type="email"
@@ -97,7 +100,7 @@ export default function QuoteSection() {
                         onChange={(e) =>
                             setForm({ ...form, email: e.target.value })
                         }
-                        className="bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none placeholder:text-white/40"
+                        className={inputBase}
                     />
                     <select
                         data-testid="quote-service"
@@ -105,23 +108,15 @@ export default function QuoteSection() {
                         onChange={(e) =>
                             setForm({ ...form, service: e.target.value })
                         }
-                        className="bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none text-white/90"
+                        className={inputBase}
                     >
-                        <option value="" className="bg-abf-bg2">
-                            Service interested…
-                        </option>
+                        <option value="">Service interested…</option>
                         {SERVICES.map((s) => (
-                            <option
-                                key={s.id}
-                                value={s.title}
-                                className="bg-abf-bg2"
-                            >
+                            <option key={s.id} value={s.title}>
                                 {s.title}
                             </option>
                         ))}
-                        <option value="Other" className="bg-abf-bg2">
-                            Other
-                        </option>
+                        <option value="Other">Other</option>
                     </select>
                     <select
                         data-testid="quote-city"
@@ -129,14 +124,12 @@ export default function QuoteSection() {
                         onChange={(e) =>
                             setForm({ ...form, city: e.target.value })
                         }
-                        className="md:col-span-2 bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none text-white/90"
+                        className={`${inputBase} md:col-span-2`}
                     >
-                        <option value="" className="bg-abf-bg2">
-                            Project city…
-                        </option>
+                        <option value="">Project city…</option>
                         {SERVICE_AREAS.map((c) => (
-                            <option key={c} value={c} className="bg-abf-bg2">
-                                {c}, BC
+                            <option key={c} value={c}>
+                                {`${c}, BC`}
                             </option>
                         ))}
                     </select>
@@ -151,17 +144,17 @@ export default function QuoteSection() {
                                 project_details: e.target.value,
                             })
                         }
-                        className="md:col-span-2 bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 rounded-lg px-4 py-3.5 outline-none placeholder:text-white/40"
+                        className={`${inputBase} md:col-span-2`}
                     />
                     <button
                         type="submit"
                         disabled={sending}
                         data-testid="quote-submit"
-                        className="md:col-span-2 cta-glow bg-gradient-to-r from-[#ff7a00] to-[#f9a03f] text-white font-bold text-base py-4 rounded-lg hover:-translate-y-0.5 transition-transform disabled:opacity-60"
+                        className="md:col-span-2 cta-glow bg-gradient-to-r from-[#ff7a00] to-[#d97706] text-white font-bold text-base py-4 rounded-lg hover:-translate-y-0.5 transition-transform disabled:opacity-60"
                     >
                         {sending ? "Sending your request…" : "Send My Quote Request"}
                     </button>
-                    <p className="md:col-span-2 text-center text-xs text-white/50 mt-1">
+                    <p className="md:col-span-2 text-center text-xs text-slate-500 mt-1">
                         By submitting you agree to be contacted by All Best
                         Fencing about your enquiry. We never share your
                         details.

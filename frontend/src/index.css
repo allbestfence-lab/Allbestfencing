@@ -3,15 +3,18 @@
 @tailwind utilities;
 
 :root {
-    --abf-bg: #060d1a;
-    --abf-bg-2: #0a1128;
-    --abf-bg-3: #121d33;
-    --abf-navy: #1c2a44;
+    /* LIGHT MODE tokens for All Best Fencing */
+    --abf-bg: #fafaf7; /* warm off-white */
+    --abf-bg-2: #ffffff; /* pure white */
+    --abf-bg-3: #f5f1ea; /* warm cream */
+    --abf-ink: #0f172a; /* slate-900 */
+    --abf-ink-soft: #334155; /* slate-700 */
+    --abf-muted: #64748b; /* slate-500 */
+    --abf-border: #e5e7eb; /* slate-200 */
+    --abf-border-strong: #cbd5e1;
+    --abf-wood: #8b5a2b; /* warm wood brown (from new logo) */
     --abf-orange: #ff7a00;
-    --abf-gold: #f9a03f;
-    --abf-text: #ffffff;
-    --abf-muted: #94a3b8;
-    --abf-border: rgba(255, 255, 255, 0.08);
+    --abf-gold: #d97706;
 }
 
 html,
@@ -19,7 +22,7 @@ body {
     margin: 0;
     padding: 0;
     background: var(--abf-bg);
-    color: var(--abf-text);
+    color: var(--abf-ink);
     font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -35,27 +38,27 @@ body {
     font-family: "Instrument Serif", ui-serif, Georgia, serif;
 }
 
-/* Shadcn default tokens (dark-first) */
+/* Shadcn tokens — LIGHT base */
 @layer base {
     :root {
-        --background: 222 65% 6%;
-        --foreground: 0 0% 98%;
-        --card: 225 55% 10%;
-        --card-foreground: 0 0% 98%;
-        --popover: 225 55% 10%;
-        --popover-foreground: 0 0% 98%;
+        --background: 40 25% 97%;
+        --foreground: 222 47% 11%;
+        --card: 0 0% 100%;
+        --card-foreground: 222 47% 11%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222 47% 11%;
         --primary: 24 100% 50%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 222 40% 14%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 222 40% 14%;
-        --muted-foreground: 215 16% 65%;
-        --accent: 32 95% 61%;
-        --accent-foreground: 225 55% 10%;
-        --destructive: 0 62% 45%;
+        --secondary: 32 30% 94%;
+        --secondary-foreground: 222 47% 11%;
+        --muted: 32 30% 94%;
+        --muted-foreground: 215 16% 42%;
+        --accent: 32 95% 44%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 98%;
-        --border: 220 20% 20%;
-        --input: 220 20% 20%;
+        --border: 220 13% 91%;
+        --input: 220 13% 91%;
         --ring: 24 100% 50%;
         --radius: 0.75rem;
     }
@@ -70,9 +73,9 @@ body {
     }
 }
 
-/* Decorative gradient text */
+/* Decorative warm gradient text — works on light */
 .text-gradient-warm {
-    background: linear-gradient(90deg, #ff7a00 0%, #f9a03f 55%, #ffd79a 100%);
+    background: linear-gradient(90deg, #ff7a00 0%, #d97706 55%, #8b5a2b 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -80,40 +83,41 @@ body {
 
 .cta-glow {
     box-shadow:
-        0 0 0 1px rgba(255, 122, 0, 0.25),
-        0 10px 28px -8px rgba(255, 122, 0, 0.55);
+        0 0 0 1px rgba(255, 122, 0, 0.18),
+        0 10px 24px -6px rgba(255, 122, 0, 0.45);
 }
 
 .cta-glow:hover {
     box-shadow:
-        0 0 0 1px rgba(255, 122, 0, 0.45),
-        0 16px 36px -8px rgba(255, 122, 0, 0.7);
+        0 0 0 1px rgba(255, 122, 0, 0.35),
+        0 16px 32px -6px rgba(255, 122, 0, 0.55);
 }
 
-/* Glass panel */
+/* Light glass panel */
 .glass {
-    background: rgba(10, 17, 40, 0.55);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 40px -12px rgba(15, 23, 42, 0.08);
 }
 
 .glass-soft {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(15, 23, 42, 0.06);
 }
 
-/* Noise overlay for texture */
+/* Subtle noise */
 .noise::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.045;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
 }
 
 /* Marquee */
@@ -129,7 +133,7 @@ body {
     animation: marquee 40s linear infinite;
 }
 
-/* Pulse ring for floating buttons */
+/* Pulse ring */
 @keyframes pulse-ring {
     0% {
         transform: scale(0.95);
@@ -148,6 +152,22 @@ body {
     animation: pulse-ring 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 }
 
+/* Decorative patterned backdrop for hero */
+.hero-pattern {
+    background-image:
+        radial-gradient(
+            ellipse 80% 50% at 85% 20%,
+            rgba(255, 122, 0, 0.15),
+            transparent 60%
+        ),
+        radial-gradient(
+            ellipse 60% 50% at 10% 80%,
+            rgba(139, 90, 43, 0.08),
+            transparent 60%
+        ),
+        linear-gradient(180deg, #fafaf7 0%, #ffffff 100%);
+}
+
 /* Selection */
 ::selection {
     background: #ff7a00;
@@ -160,10 +180,10 @@ body {
     height: 10px;
 }
 ::-webkit-scrollbar-track {
-    background: #060d1a;
+    background: #f5f1ea;
 }
 ::-webkit-scrollbar-thumb {
-    background: #1c2a44;
+    background: #cbd5e1;
     border-radius: 8px;
 }
 ::-webkit-scrollbar-thumb:hover {

@@ -5,7 +5,7 @@ export const BUSINESS = {
     phoneDigits: "16043580406",
     email: "allbestfencing@gmail.com",
     tagline: "Built Strong. Designed to Impress.",
-    logo: "https://customer-assets.emergentagent.com/job_ae43fb83-34ed-4ae7-8c77-12e642c028c2/artifacts/8rnkpk1v_Screenshot%202026-05-04%20at%2011.17.48%E2%80%AFAM.png",
+    logo: "https://customer-assets.emergentagent.com/job_fence-quote-4/artifacts/0dxkiy0y_ALL-BEST-FENCING-01.webp",
 };
 
 export const SERVICE_AREAS = [

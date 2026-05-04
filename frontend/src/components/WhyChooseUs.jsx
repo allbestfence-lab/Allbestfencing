@@ -26,7 +26,7 @@ const ITEMS = [
 
 export default function WhyChooseUs() {
     return (
-        <section className="relative py-24 md:py-32 px-5 md:px-8">
+        <section className="relative py-20 md:py-28 px-5 md:px-8 bg-white border-y border-slate-100">
             <div className="mx-auto max-w-7xl">
                 <div className="grid md:grid-cols-4 gap-4 md:gap-5">
                     {ITEMS.map(({ icon: Icon, title, desc }, i) => (
@@ -37,15 +37,15 @@ export default function WhyChooseUs() {
                             viewport={{ once: true, margin: "-80px" }}
                             transition={{ duration: 0.6, delay: i * 0.08 }}
                             data-testid={`trust-card-${i}`}
-                            className="group relative rounded-2xl border border-white/5 bg-abf-bg2/50 p-6 md:p-7 hover:border-abf-orange/40 hover:-translate-y-1 transition-all duration-300"
+                            className="group relative rounded-2xl border border-slate-200 bg-white p-6 md:p-7 hover:border-abf-orange hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                         >
-                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-abf-orange to-abf-gold flex items-center justify-center mb-4 shadow-lg shadow-abf-orange/20">
+                            <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#ff7a00] to-[#d97706] flex items-center justify-center mb-4 shadow-lg shadow-abf-orange/25">
                                 <Icon className="w-5 h-5 text-white" />
                             </div>
-                            <h3 className="font-display text-lg font-semibold text-white">
+                            <h3 className="font-display text-lg font-bold text-slate-900">
                                 {title}
                             </h3>
-                            <p className="text-sm text-white/55 mt-1.5 leading-relaxed">
+                            <p className="text-sm text-slate-500 mt-1.5 leading-relaxed">
                                 {desc}
                             </p>
                         </motion.div>

@@ -7,14 +7,14 @@ export default function Testimonials() {
         <section
             id="reviews"
             data-testid="testimonials-section"
-            className="relative py-24 md:py-32 px-5 md:px-8 bg-gradient-to-b from-abf-bg to-abf-bg2"
+            className="relative py-24 md:py-32 px-5 md:px-8 bg-abf-bg3"
         >
             <div className="mx-auto max-w-7xl">
                 <div className="text-center mb-14 md:mb-20">
-                    <div className="text-xs tracking-[0.3em] uppercase text-abf-gold font-semibold mb-4">
+                    <div className="text-xs tracking-[0.3em] uppercase text-abf-wood font-bold mb-4">
                         Trusted by 500+ Homeowners
                     </div>
-                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter">
+                    <h2 className="font-display text-4xl md:text-6xl font-bold tracking-tighter text-slate-900">
                         Real stories. <span className="text-gradient-warm">Real results.</span>
                     </h2>
                     <div className="mt-6 inline-flex items-center gap-3">
@@ -22,14 +22,14 @@ export default function Testimonials() {
                             {[...Array(5)].map((_, i) => (
                                 <Star
                                     key={i}
-                                    className="w-5 h-5 fill-abf-gold text-abf-gold"
+                                    className="w-5 h-5 fill-abf-orange text-abf-orange"
                                 />
                             ))}
                         </div>
-                        <span className="text-lg font-display font-semibold">
+                        <span className="text-lg font-display font-bold text-slate-900">
                             4.9 / 5.0
                         </span>
-                        <span className="text-white/50 text-sm">
+                        <span className="text-slate-500 text-sm">
                             · 500+ Google reviews
                         </span>
                     </div>
@@ -44,24 +44,24 @@ export default function Testimonials() {
                             viewport={{ once: true, margin: "-60px" }}
                             transition={{ duration: 0.6, delay: i * 0.07 }}
                             data-testid={`testimonial-${i}`}
-                            className="rounded-2xl border border-white/5 bg-abf-bg p-6 md:p-7 hover:border-abf-gold/30 transition-colors"
+                            className="rounded-2xl border border-slate-200 bg-white p-6 md:p-7 hover:border-abf-orange/40 hover:shadow-lg transition-all"
                         >
                             <div className="flex mb-4">
                                 {[...Array(5)].map((_, j) => (
                                     <Star
                                         key={j}
-                                        className="w-4 h-4 fill-abf-gold text-abf-gold"
+                                        className="w-4 h-4 fill-abf-orange text-abf-orange"
                                     />
                                 ))}
                             </div>
-                            <p className="font-serif-display italic text-lg md:text-xl leading-snug text-white/90 mb-5">
+                            <p className="font-serif-display italic text-lg md:text-xl leading-snug text-slate-800 mb-5">
                                 “{t.quote}”
                             </p>
                             <footer>
-                                <div className="font-semibold text-white">
+                                <div className="font-semibold text-slate-900">
                                     {t.name}
                                 </div>
-                                <div className="text-xs text-white/50 mt-0.5">
+                                <div className="text-xs text-slate-500 mt-0.5">
                                     {t.role}
                                 </div>
                             </footer>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Star, ShieldCheck, Award, Zap } from "lucide-react";
+import { Star, ShieldCheck, Award, Zap, PhoneCall } from "lucide-react";
 import useProgressiveCapture from "@/hooks/useProgressiveCapture";
 import { submitFullLead } from "@/lib/api";
 import { toast } from "sonner";
@@ -38,20 +38,13 @@ export default function Hero() {
         <section
             id="top"
             data-testid="hero-section"
-            className="relative min-h-screen overflow-hidden noise"
+            className="relative min-h-screen overflow-hidden hero-pattern pt-28 md:pt-36 pb-20"
         >
-            {/* Background */}
-            <div className="absolute inset-0">
-                <img
-                    src="https://static.prod-images.emergentagent.com/jobs/ae43fb83-34ed-4ae7-8c77-12e642c028c2/images/92d958ef9cd8a36a8d523aa544ac55e6f5dbcface03e36bfbc27dec3cd10cf2c.png"
-                    alt="Architectural fencing backdrop"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a]/95 via-[#060d1a]/80 to-[#060d1a]/60" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,122,0,0.15),transparent_60%)]" />
-            </div>
+            {/* Decorative elements */}
+            <div className="absolute top-36 right-[-10%] w-[500px] h-[500px] bg-abf-orange/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-[-10%] w-[400px] h-[400px] bg-abf-wood/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8 pt-32 md:pt-40 pb-20 grid lg:grid-cols-12 gap-10 items-center">
+            <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-8 grid lg:grid-cols-12 gap-10 items-center">
                 {/* Left */}
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -59,12 +52,12 @@ export default function Hero() {
                     transition={{ duration: 0.8 }}
                     className="lg:col-span-7"
                 >
-                    <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-abf-gold/90 mb-6">
-                        <span className="w-8 h-px bg-abf-gold/60" />
+                    <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-abf-wood font-semibold mb-6">
+                        <span className="w-8 h-px bg-abf-wood/60" />
                         Greater Vancouver · Since 2014
                     </div>
                     <h1
-                        className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-[88px] leading-[0.95] font-bold tracking-tighter"
+                        className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-[84px] leading-[0.95] font-bold tracking-tighter text-slate-900"
                         data-testid="hero-headline"
                     >
                         We don't just build fences.
@@ -73,7 +66,7 @@ export default function Hero() {
                             We build security.
                         </span>
                     </h1>
-                    <p className="mt-7 text-lg md:text-xl text-white/70 max-w-xl leading-relaxed">
+                    <p className="mt-7 text-lg md:text-xl text-slate-600 max-w-xl leading-relaxed">
                         Premium wood, aluminum, privacy, vinyl and custom gate
                         installations engineered to elevate your property's
                         security and curb appeal.
@@ -85,21 +78,35 @@ export default function Hero() {
                                 {[...Array(5)].map((_, i) => (
                                     <Star
                                         key={i}
-                                        className="w-4 h-4 fill-abf-gold text-abf-gold"
+                                        className="w-4 h-4 fill-abf-orange text-abf-orange"
                                     />
                                 ))}
                             </div>
-                            <span className="text-sm text-white/80">5-Star Rated</span>
+                            <span className="text-sm font-semibold text-slate-700">5-Star Rated</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-white/80">
-                            <ShieldCheck className="w-4 h-4 text-abf-gold" />
+                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                            <ShieldCheck className="w-4 h-4 text-abf-orange" />
                             Licensed & Insured
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-white/80">
-                            <Award className="w-4 h-4 text-abf-gold" />
+                        <div className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                            <Award className="w-4 h-4 text-abf-orange" />
                             10+ Years Experience
                         </div>
                     </div>
+
+                    <a
+                        href={`tel:${BUSINESS.phoneTel}`}
+                        className="mt-10 inline-flex items-center gap-3 text-slate-900 hover:text-abf-orange transition-colors"
+                        data-testid="hero-call-link"
+                    >
+                        <div className="w-11 h-11 rounded-full bg-abf-orange/10 flex items-center justify-center">
+                            <PhoneCall className="w-5 h-5 text-abf-orange" />
+                        </div>
+                        <div className="leading-tight">
+                            <div className="text-xs text-slate-500 uppercase tracking-wider font-medium">Call us now</div>
+                            <div className="font-display font-bold text-xl">{BUSINESS.phoneDisplay}</div>
+                        </div>
+                    </a>
                 </motion.div>
 
                 {/* Right: Form */}
@@ -112,19 +119,19 @@ export default function Hero() {
                     <form
                         onSubmit={onSubmit}
                         data-testid="hero-quote-form"
-                        className="glass rounded-2xl p-6 md:p-7 shadow-2xl"
+                        className="bg-white rounded-2xl p-6 md:p-7 shadow-[0_20px_60px_-15px_rgba(15,23,42,0.15)] border border-slate-200"
                     >
                         <div className="flex items-center justify-between mb-5">
                             <div>
-                                <h3 className="font-display text-2xl font-bold">
+                                <h3 className="font-display text-2xl font-bold text-slate-900">
                                     Get Free Quote
                                 </h3>
-                                <p className="text-sm text-white/60 mt-1">
+                                <p className="text-sm text-slate-500 mt-1">
                                     Start your project today. No obligation.
                                 </p>
                             </div>
-                            <div className="hidden sm:flex items-center gap-1 text-[11px] text-abf-gold font-semibold bg-abf-gold/10 border border-abf-gold/30 px-2.5 py-1 rounded-full">
-                                <Zap className="w-3 h-3 fill-abf-gold" />
+                            <div className="hidden sm:flex items-center gap-1 text-[11px] text-abf-orange font-bold bg-abf-orange/10 border border-abf-orange/20 px-2.5 py-1 rounded-full">
+                                <Zap className="w-3 h-3 fill-abf-orange" />
                                 2-HR RESPONSE
                             </div>
                         </div>
@@ -138,7 +145,7 @@ export default function Hero() {
                                 onChange={(e) =>
                                     setForm({ ...form, name: e.target.value })
                                 }
-                                className="w-full bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 transition-colors rounded-lg px-4 py-3 outline-none placeholder:text-white/40"
+                                className="w-full bg-slate-50 border border-slate-200 focus:border-abf-orange focus:bg-white focus:ring-2 focus:ring-abf-orange/20 transition-all rounded-lg px-4 py-3 outline-none placeholder:text-slate-400 text-slate-900"
                             />
                             <input
                                 data-testid="hero-form-phone"
@@ -148,7 +155,7 @@ export default function Hero() {
                                 onChange={(e) =>
                                     setForm({ ...form, phone: e.target.value })
                                 }
-                                className="w-full bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 transition-colors rounded-lg px-4 py-3 outline-none placeholder:text-white/40"
+                                className="w-full bg-slate-50 border border-slate-200 focus:border-abf-orange focus:bg-white focus:ring-2 focus:ring-abf-orange/20 transition-all rounded-lg px-4 py-3 outline-none placeholder:text-slate-400 text-slate-900"
                             />
                             <input
                                 data-testid="hero-form-email"
@@ -158,30 +165,21 @@ export default function Hero() {
                                 onChange={(e) =>
                                     setForm({ ...form, email: e.target.value })
                                 }
-                                className="w-full bg-white/5 border border-white/10 focus:border-abf-orange focus:bg-white/10 transition-colors rounded-lg px-4 py-3 outline-none placeholder:text-white/40"
+                                className="w-full bg-slate-50 border border-slate-200 focus:border-abf-orange focus:bg-white focus:ring-2 focus:ring-abf-orange/20 transition-all rounded-lg px-4 py-3 outline-none placeholder:text-slate-400 text-slate-900"
                             />
                             <button
                                 type="submit"
                                 disabled={sending}
                                 data-testid="hero-form-submit"
-                                className="cta-glow w-full bg-gradient-to-r from-[#ff7a00] to-[#f9a03f] text-white font-bold text-base py-3.5 rounded-lg hover:-translate-y-0.5 transition-transform disabled:opacity-60 disabled:translate-y-0"
+                                className="cta-glow w-full bg-gradient-to-r from-[#ff7a00] to-[#d97706] text-white font-bold text-base py-3.5 rounded-lg hover:-translate-y-0.5 transition-transform disabled:opacity-60 disabled:translate-y-0"
                             >
                                 {sending ? "Sending…" : "Get Instant Quote"}
                             </button>
                         </div>
 
-                        <p className="mt-4 text-center text-xs text-white/50">
-                            <Zap className="inline w-3 h-3 -mt-0.5 mr-1 text-abf-gold fill-abf-gold" />
+                        <p className="mt-4 text-center text-xs text-slate-500">
+                            <Zap className="inline w-3 h-3 -mt-0.5 mr-1 text-abf-orange fill-abf-orange" />
                             Response within 2 hours guaranteed
-                        </p>
-                        <p className="mt-2 text-center text-[11px] text-white/40">
-                            Or call us directly:{" "}
-                            <a
-                                href={`tel:${BUSINESS.phoneTel}`}
-                                className="text-abf-gold font-semibold hover:underline"
-                            >
-                                {BUSINESS.phoneDisplay}
-                            </a>
                         </p>
                     </form>
                 </motion.div>
