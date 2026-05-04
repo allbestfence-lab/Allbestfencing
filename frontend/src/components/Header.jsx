@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Phone } from "lucide-react";
 import { BUSINESS } from "@/lib/constants";
+import Logo from "@/components/Logo";
 
 const NAV = [
     { label: "Services", href: "#services" },
@@ -31,34 +32,12 @@ export default function Header() {
             data-testid="site-header"
             className={`fixed top-0 inset-x-0 z-40 transition-all duration-300 ${
                 scrolled
-                    ? "bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm"
-                    : "bg-white/70 backdrop-blur-md border-b border-slate-200/60"
+                    ? "bg-white/90 backdrop-blur-xl border-b border-slate-200 shadow-sm h-20"
+                    : "bg-white/70 backdrop-blur-md border-b border-slate-200/60 h-[88px]"
             }`}
         >
-            <div className="mx-auto max-w-7xl px-5 md:px-8 h-16 md:h-20 flex items-center justify-between">
-                <a
-                    href="#top"
-                    data-testid="header-logo"
-                    className="flex items-center gap-3"
-                    onClick={(e) => {
-                        e.preventDefault();
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
-                >
-                    <img
-                        src={BUSINESS.logo}
-                        alt="All Best Fencing logo"
-                        className="h-12 md:h-14 w-auto object-contain"
-                    />
-                    <div className="leading-tight hidden sm:block">
-                        <div className="font-display text-lg md:text-xl font-bold tracking-tight text-slate-900">
-                            All Best Fencing
-                        </div>
-                        <div className="text-[10px] md:text-xs tracking-[0.25em] uppercase text-abf-orange font-semibold">
-                            Built Strong · Secured Right
-                        </div>
-                    </div>
-                </a>
+            <div className="mx-auto max-w-7xl px-5 md:px-8 h-full flex items-center justify-between">
+                <Logo variant="light" size="lg" testId="header-logo" />
 
                 <nav className="hidden lg:flex items-center gap-8">
                     {NAV.map((n) => (

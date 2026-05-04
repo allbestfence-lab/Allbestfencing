@@ -168,6 +168,45 @@ body {
         linear-gradient(180deg, #fafaf7 0%, #ffffff 100%);
 }
 
+/* Logo animations */
+@keyframes logo-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-3px);
+    }
+}
+.logo-float {
+    animation: logo-float 4s ease-in-out infinite;
+}
+
+@keyframes logo-conic-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+.logo-conic {
+    background: conic-gradient(
+        from 0deg,
+        #ff7a00,
+        #d97706,
+        #8b5a2b,
+        #ff7a00,
+        #d97706,
+        #ff7a00
+    );
+    animation: logo-conic-spin 3s linear infinite;
+    padding: 2px;
+    -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    border-radius: 1rem;
+}
+
 /* Selection */
 ::selection {
     background: #ff7a00;

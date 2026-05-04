@@ -1,5 +1,6 @@
 import { BUSINESS, SERVICE_AREAS, SERVICES } from "@/lib/constants";
 import { Phone, Mail, MapPin } from "lucide-react";
+import Logo from "@/components/Logo";
 
 export default function Footer() {
     return (
