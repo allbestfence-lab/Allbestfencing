@@ -28,7 +28,7 @@ export default function Logo({
             <img
                 src={BUSINESS.logo}
                 alt="All Best Fencing logo"
-                className={`${dims} w-auto object-contain transition-transform duration-300 group-hover:scale-105 mix-blend-multiply`}
+                className={`${dims} w-auto object-contain transition-transform duration-300 group-hover:scale-105`}
             />
         </a>
     );

@@ -6,6 +6,7 @@ export const BUSINESS = {
     email: "allbestfencing@gmail.com",
     tagline: "Built Strong. Designed to Impress.",
     logo: "/img/logo.png",
+    logoLight: "/img/logo-light.png",
 };
 
 export const SERVICE_AREAS = [

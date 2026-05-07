@@ -13,7 +13,7 @@ export default function Footer() {
                     <div>
                         <div className="flex items-center gap-3 mb-5">
                             <img
-                                src={BUSINESS.logo}
+                                src={BUSINESS.logoLight}
                                 alt="All Best Fencing"
                                 className="h-14 w-auto object-contain"
                             />
