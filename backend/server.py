@@ -1,4 +1,6 @@
-from fastapi import FastAPI, APIRouter, HTTPException, BackgroundTasks
+from fastapi import FastAPI, APIRouter, HTTPException, BackgroundTasks, UploadFile, File, Form
+import smtplib
+from email.message import EmailMessage
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -319,6 +321,40 @@ async def create_full_lead(payload: LeadFull, background: BackgroundTasks):
 async def list_leads(limit: int = 200):
     leads = await db.leads.find({}, {"_id": 0, "phone_norm": 0}).sort("created_at", -1).to_list(limit)
     return {"count": len(leads), "leads": leads}
+
+
+@api_router.post("/admin/send-document")
+async def send_admin_document(
+    email: str = Form(...),
+    docType: str = Form(...),
+    file: UploadFile = File(...)
+):
+    gmail_user = os.environ.get("GMAIL_USER", "allbestfencing@gmail.com")
+    gmail_password = os.environ.get("GMAIL_APP_PASSWORD")
+    
+    if not gmail_password:
+        raise HTTPException(status_code=500, detail="Gmail App Password not configured in .env")
+    
+    try:
+        contents = await file.read()
+        subject = f"Your {docType} from All Best Fencing"
+        
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = f"All Best Fencing <{gmail_user}>"
+        msg['To'] = email
+        msg.set_content(f"Please find your {docType} attached.\n\nThank you,\nAll Best Fencing")
+        msg.add_alternative(f"<p>Please find your {docType} attached.</p><br><p>Thank you,<br>All Best Fencing</p>", subtype='html')
+        msg.add_attachment(contents, maintype='application', subtype='pdf', filename=file.filename)
+        
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+            smtp.login(gmail_user, gmail_password)
+            smtp.send_message(msg)
+            
+        return {"status": "sent"}
+    except Exception as e:
+        logger.error(f"Failed to send doc via Gmail: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 app.include_router(api_router)

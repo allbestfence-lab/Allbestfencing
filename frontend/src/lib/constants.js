@@ -5,7 +5,7 @@ export const BUSINESS = {
     phoneDigits: "16043580406",
     email: "allbestfencing@gmail.com",
     tagline: "Built Strong. Designed to Impress.",
-    logo: "https://customer-assets.emergentagent.com/job_fence-quote-4/artifacts/xgpl571l_Gemini_Generated_Image_ouf1zoouf1zoouf1.png",
+    logo: "/img/logo.png",
 };
 
 export const SERVICE_AREAS = [
@@ -31,7 +31,7 @@ export const SERVICES = [
         short: "Premium cedar & exotic hardwoods",
         description:
             "Western red cedar, pressure-treated pine and exotic hardwood privacy fences — hand-finished for a timeless natural look.",
-        image: "https://images.unsplash.com/photo-1740482682683-309e6fb4898f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwyfHx3b29kZW4lMjBmZW5jZSUyMHlhcmR8ZW58MHx8fHwxNzc3OTE4MDY5fDA&ixlib=rb-4.1.0&q=85",
+        image: "/img/wood.png",
         span: "md:col-span-5 md:row-span-2",
     },
     {
@@ -40,7 +40,7 @@ export const SERVICES = [
         short: "Sleek, durable & low-maintenance",
         description:
             "Powder-coated aluminum panels engineered to withstand BC weather while keeping sight lines open and elegant.",
-        image: "https://images.unsplash.com/photo-1760890769552-f2cfe952e8c4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxtZXRhbCUyMHNlY3VyaXR5JTIwZ2F0ZXxlbnwwfHx8fDE3Nzc5MTgwNjh8MA&ixlib=rb-4.1.0&q=85",
+        image: "/img/metal.png",
         span: "md:col-span-4 md:row-span-1",
     },
     {
@@ -58,7 +58,7 @@ export const SERVICES = [
         short: "Smart access control systems",
         description:
             "Swing, slide and cantilever gates — wired with keypads, remote opener and smartphone control for modern convenience.",
-        image: "https://images.unsplash.com/photo-1760890769552-f2cfe952e8c4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBnYXRlfGVufDB8fHx8MTc3NzkxODA2OXww&ixlib=rb-4.1.0&q=85",
+        image: "/img/metal.png",
         span: "md:col-span-4 md:row-span-1",
     },
     {
@@ -83,9 +83,9 @@ export const SERVICES = [
 
 export const PORTFOLIO = [
     "https://images.pexels.com/photos/4948974/pexels-photo-4948974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-    "https://images.unsplash.com/photo-1740482682683-309e6fb4898f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwyfHx3b29kZW4lMjBmZW5jZSUyMHlhcmR8ZW58MHx8fHwxNzc3OTE4MDY5fDA&ixlib=rb-4.1.0&q=85",
+    "/img/wood.png",
     "https://images.unsplash.com/photo-1726471809607-b7f016a1696e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkYXJrJTIwaG91c2UlMjBleHRlcmlvcnxlbnwwfHx8fDE3Nzc5MTgwNjl8MA&ixlib=rb-4.1.0&q=85",
-    "https://images.unsplash.com/photo-1760890769552-f2cfe952e8c4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxtZXRhbCUyMHNlY3VyaXR5JTIwZ2F0ZXxlbnwwfHx8fDE3Nzc5MTgwNjh8MA&ixlib=rb-4.1.0&q=85",
+    "/img/metal.png",
     "https://images.pexels.com/photos/29672245/pexels-photo-29672245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
     "https://images.unsplash.com/photo-1772284650738-b1ce223e5ab3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHxjaGFpbiUyMGxpbmslMjBmZW5jZSUyMHN0cnVjdHVyZXxlbnwwfHx8fDE3Nzc5MTgwODZ8MA&ixlib=rb-4.1.0&q=85",
 ];
