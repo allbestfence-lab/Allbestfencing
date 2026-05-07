@@ -35,11 +35,11 @@ export const SERVICES = [
         span: "md:col-span-5 md:row-span-2",
     },
     {
-        id: "aluminum",
-        title: "Modern Aluminum Fences",
-        short: "Sleek, durable & low-maintenance",
+        id: "metal",
+        title: "Metal Fencing",
+        short: "Aluminum & wrought-iron — built to last",
         description:
-            "Powder-coated aluminum panels engineered to withstand BC weather while keeping sight lines open and elegant.",
+            "Powder-coated aluminum and wrought-iron fencing built for security and curb appeal. Weather-proof and engineered to last decades.",
         image: "/img/metal.png",
         span: "md:col-span-4 md:row-span-1",
     },
@@ -79,6 +79,26 @@ export const SERVICES = [
         image: "https://images.pexels.com/photos/29672245/pexels-photo-29672245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
         span: "md:col-span-4 md:row-span-1",
     },
+    {
+        id: "glass",
+        title: "Glass Railings",
+        short: "Modern, unobstructed views",
+        description:
+            "Tempered-glass deck and pool railings with stainless or aluminum frames — engineered for safety and stunning sight lines.",
+        image: "https://images.pexels.com/photos/4948974/pexels-photo-4948974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        span: "md:col-span-4 md:row-span-1",
+    },
+];
+
+export const PORTFOLIO_CATEGORIES = [
+    "All",
+    "Wood Fence",
+    "Metal Fence",
+    "Chain-link",
+    "Vinyl/PVC",
+    "Glass Railing",
+    "Gates",
+    "Other",
 ];
 
 export const PORTFOLIO = [

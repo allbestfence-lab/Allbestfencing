@@ -1,17 +1,24 @@
-from fastapi import FastAPI, APIRouter, HTTPException, BackgroundTasks, UploadFile, File, Form
+from fastapi import FastAPI, APIRouter, HTTPException, BackgroundTasks, UploadFile, File, Form, Depends, status
+from fastapi.security import OAuth2PasswordBearer
+from fastapi.staticfiles import StaticFiles
 import smtplib
 from email.message import EmailMessage
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import io
 import asyncio
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, EmailStr, ConfigDict
 from typing import List, Optional
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+import bcrypt
+from jose import jwt, JWTError
+from PIL import Image, ImageOps
 
 import resend
 import gspread
@@ -36,6 +43,33 @@ if RESEND_API_KEY:
 # Google Sheets
 GOOGLE_SHEETS_ID = os.environ.get("GOOGLE_SHEETS_ID", "").strip()
 GOOGLE_CREDENTIALS_PATH = os.environ.get("GOOGLE_CREDENTIALS_PATH", "").strip()
+
+# Admin auth + uploads
+ADMIN_PASSWORD_HASH = os.environ.get("ADMIN_PASSWORD_HASH", "").strip()
+JWT_SECRET = os.environ.get("JWT_SECRET", "change-me").strip()
+JWT_ALGO = "HS256"
+JWT_EXPIRE_HOURS = 24 * 7  # 7-day session
+UPLOAD_DIR = Path(os.environ.get("UPLOAD_DIR", "/app/backend/uploads"))
+PORTFOLIO_DIR = UPLOAD_DIR / "portfolio"
+PORTFOLIO_DIR.mkdir(parents=True, exist_ok=True)
+
+ALLOWED_IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".webp", ".heic", ".heif"}
+MAX_IMAGE_BYTES = 12 * 1024 * 1024  # 12 MB
+MAX_IMAGE_WIDTH = 1920
+JPEG_QUALITY = 85
+
+ALLOWED_CATEGORIES = [
+    "Wood Fence",
+    "Metal Fence",
+    "Chain-link",
+    "Vinyl/PVC",
+    "Glass Railing",
+    "Gates",
+    "Other",
+]
+SERVICE_HERO_KEYS = ["wood", "metal", "chainlink", "vinyl", "glass", "gates", "privacy"]
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/admin/login", auto_error=False)
 
 app = FastAPI(title="All Best Fencing API")
 api_router = APIRouter(prefix="/api")
@@ -76,6 +110,36 @@ class Lead(BaseModel):
     notified: bool = False
     sheet_logged: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class Photo(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    filename: str
+    url: str  # public URL e.g. /api/uploads/portfolio/<id>.jpg
+    category: str = "Other"
+    caption: Optional[str] = None
+    featured: bool = False
+    show_on_homepage: bool = True
+    service_hero_for: Optional[str] = None  # one of SERVICE_HERO_KEYS
+    order: int = 0
+    width: Optional[int] = None
+    height: Optional[int] = None
+    size_bytes: Optional[int] = None
+    uploaded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class LoginRequest(BaseModel):
+    password: str
+
+
+class PhotoUpdate(BaseModel):
+    category: Optional[str] = None
+    caption: Optional[str] = None
+    featured: Optional[bool] = None
+    show_on_homepage: Optional[bool] = None
+    service_hero_for: Optional[str] = None
+    order: Optional[int] = None
 
 
 # ============ Helpers ============
@@ -357,7 +421,213 @@ async def send_admin_document(
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ============ Admin Auth ============
+def _create_jwt(sub: str = "admin") -> str:
+    payload = {
+        "sub": sub,
+        "exp": datetime.now(timezone.utc) + timedelta(hours=JWT_EXPIRE_HOURS),
+        "iat": datetime.now(timezone.utc),
+    }
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGO)
+
+
+async def require_admin(token: Optional[str] = Depends(oauth2_scheme)) -> str:
+    if not token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGO])
+        sub = payload.get("sub")
+        if sub != "admin":
+            raise HTTPException(status_code=401, detail="Invalid token")
+        return sub
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+
+
+@api_router.post("/admin/login")
+async def admin_login(payload: LoginRequest):
+    if not ADMIN_PASSWORD_HASH:
+        raise HTTPException(status_code=500, detail="Admin password not configured on server")
+    try:
+        ok = bcrypt.checkpw(payload.password.encode("utf-8"), ADMIN_PASSWORD_HASH.encode("utf-8"))
+    except Exception as e:
+        logger.error(f"bcrypt check failed: {e}")
+        raise HTTPException(status_code=500, detail="Auth error")
+    if not ok:
+        raise HTTPException(status_code=401, detail="Incorrect password")
+    return {"access_token": _create_jwt(), "token_type": "bearer"}
+
+
+@api_router.get("/admin/me")
+async def admin_me(_: str = Depends(require_admin)):
+    return {"ok": True, "role": "admin"}
+
+
+# ============ Photo Upload + Management ============
+def _save_image(file_bytes: bytes, ext: str) -> dict:
+    """Compress, downsize, save to disk. Returns metadata."""
+    try:
+        img = Image.open(io.BytesIO(file_bytes))
+        img = ImageOps.exif_transpose(img)  # honour orientation
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Invalid image: {e}")
+
+    if img.mode not in ("RGB", "RGBA"):
+        img = img.convert("RGB")
+    elif img.mode == "RGBA":
+        # flatten transparency over white for JPEG
+        bg = Image.new("RGB", img.size, (255, 255, 255))
+        bg.paste(img, mask=img.split()[-1])
+        img = bg
+
+    if img.width > MAX_IMAGE_WIDTH:
+        ratio = MAX_IMAGE_WIDTH / float(img.width)
+        new_h = int(img.height * ratio)
+        img = img.resize((MAX_IMAGE_WIDTH, new_h), Image.LANCZOS)
+
+    photo_id = str(uuid.uuid4())
+    save_name = f"{photo_id}.jpg"
+    save_path = PORTFOLIO_DIR / save_name
+    img.save(save_path, format="JPEG", quality=JPEG_QUALITY, optimize=True, progressive=True)
+    size = save_path.stat().st_size
+    return {
+        "id": photo_id,
+        "filename": save_name,
+        "width": img.width,
+        "height": img.height,
+        "size_bytes": size,
+    }
+
+
+@api_router.post("/admin/photos/upload")
+async def upload_photos(
+    files: List[UploadFile] = File(...),
+    category: str = Form("Other"),
+    caption: Optional[str] = Form(None),
+    featured: bool = Form(False),
+    show_on_homepage: bool = Form(True),
+    service_hero_for: Optional[str] = Form(None),
+    _: str = Depends(require_admin),
+):
+    if category not in ALLOWED_CATEGORIES:
+        raise HTTPException(status_code=400, detail=f"Invalid category. Allowed: {ALLOWED_CATEGORIES}")
+    if service_hero_for and service_hero_for not in SERVICE_HERO_KEYS:
+        raise HTTPException(status_code=400, detail=f"Invalid service_hero_for. Allowed: {SERVICE_HERO_KEYS}")
+
+    saved = []
+    # Determine starting order (append to end)
+    last = await db.photos.find_one({}, sort=[("order", -1)])
+    next_order = (last.get("order", 0) + 1) if last else 1
+
+    for upload in files:
+        ext = Path(upload.filename or "").suffix.lower()
+        if ext not in ALLOWED_IMAGE_EXTS:
+            raise HTTPException(status_code=400, detail=f"Unsupported file type: {upload.filename}")
+        contents = await upload.read()
+        if len(contents) > MAX_IMAGE_BYTES:
+            raise HTTPException(status_code=400, detail=f"{upload.filename} exceeds 12 MB limit")
+
+        meta = _save_image(contents, ext)
+        photo = Photo(
+            id=meta["id"],
+            filename=meta["filename"],
+            url=f"/api/uploads/portfolio/{meta['filename']}",
+            category=category,
+            caption=caption,
+            featured=featured,
+            show_on_homepage=show_on_homepage,
+            service_hero_for=service_hero_for,
+            order=next_order,
+            width=meta["width"],
+            height=meta["height"],
+            size_bytes=meta["size_bytes"],
+        )
+        next_order += 1
+        doc = photo.model_dump()
+        doc["uploaded_at"] = doc["uploaded_at"].isoformat()
+
+        # If this is service hero, clear other photos for that key
+        if service_hero_for:
+            await db.photos.update_many(
+                {"service_hero_for": service_hero_for},
+                {"$set": {"service_hero_for": None}},
+            )
+        await db.photos.insert_one(doc)
+        saved.append({k: v for k, v in doc.items() if k != "_id"})
+    return {"count": len(saved), "photos": saved}
+
+
+@api_router.get("/admin/photos")
+async def admin_list_photos(_: str = Depends(require_admin)):
+    photos = await db.photos.find({}, {"_id": 0}).sort([("order", 1), ("uploaded_at", -1)]).to_list(1000)
+    return {"count": len(photos), "photos": photos, "categories": ALLOWED_CATEGORIES, "service_keys": SERVICE_HERO_KEYS}
+
+
+@api_router.patch("/admin/photos/{photo_id}")
+async def update_photo(photo_id: str, update: PhotoUpdate, _: str = Depends(require_admin)):
+    payload = {k: v for k, v in update.model_dump().items() if v is not None}
+    if "category" in payload and payload["category"] not in ALLOWED_CATEGORIES:
+        raise HTTPException(status_code=400, detail="Invalid category")
+    if "service_hero_for" in payload and payload["service_hero_for"] and payload["service_hero_for"] not in SERVICE_HERO_KEYS:
+        raise HTTPException(status_code=400, detail="Invalid service_hero_for")
+    # If setting a new service hero, clear it from any other photo
+    if payload.get("service_hero_for"):
+        await db.photos.update_many(
+            {"service_hero_for": payload["service_hero_for"], "id": {"$ne": photo_id}},
+            {"$set": {"service_hero_for": None}},
+        )
+    result = await db.photos.update_one({"id": photo_id}, {"$set": payload})
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Photo not found")
+    photo = await db.photos.find_one({"id": photo_id}, {"_id": 0})
+    return {"status": "updated", "photo": photo}
+
+
+@api_router.delete("/admin/photos/{photo_id}")
+async def delete_photo(photo_id: str, _: str = Depends(require_admin)):
+    photo = await db.photos.find_one({"id": photo_id}, {"_id": 0})
+    if not photo:
+        raise HTTPException(status_code=404, detail="Photo not found")
+    try:
+        path = PORTFOLIO_DIR / photo["filename"]
+        if path.exists():
+            path.unlink()
+    except Exception as e:
+        logger.error(f"Failed to delete file {photo.get('filename')}: {e}")
+    await db.photos.delete_one({"id": photo_id})
+    return {"status": "deleted", "id": photo_id}
+
+
+@api_router.get("/photos")
+async def list_public_photos(category: Optional[str] = None, limit: int = 200):
+    """Public endpoint — only returns photos flagged show_on_homepage."""
+    query = {"show_on_homepage": True}
+    if category and category != "All":
+        query["category"] = category
+    photos = (
+        await db.photos.find(query, {"_id": 0})
+        .sort([("featured", -1), ("order", 1), ("uploaded_at", -1)])
+        .to_list(limit)
+    )
+    return {"count": len(photos), "photos": photos}
+
+
+@api_router.get("/services/hero-photos")
+async def get_service_hero_photos():
+    """Returns mapping of service_key -> photo url so frontend can override defaults."""
+    cursor = db.photos.find({"service_hero_for": {"$ne": None}}, {"_id": 0})
+    mapping = {}
+    async for p in cursor:
+        key = p.get("service_hero_for")
+        if key and key not in mapping:
+            mapping[key] = {"url": p.get("url"), "caption": p.get("caption")}
+    return {"map": mapping}
+
+
 app.include_router(api_router)
+
+# Serve uploaded photos publicly (under /api/* so K8s ingress routes it to backend)
+app.mount("/api/uploads", StaticFiles(directory=str(UPLOAD_DIR)), name="uploads")
 
 app.add_middleware(
     CORSMiddleware,
