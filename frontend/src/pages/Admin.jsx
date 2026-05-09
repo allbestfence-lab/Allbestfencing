@@ -156,9 +156,8 @@ function TabBtn({ icon, label, active, onClick }) {
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2 transition-colors ${
-                active ? "bg-orange-100 text-orange-700" : "text-slate-600 hover:bg-slate-100"
-            }`}
+            className={`px-4 py-2 rounded-lg text-sm font-semibold inline-flex items-center gap-2 transition-colors ${active ? "bg-orange-100 text-orange-700" : "text-slate-600 hover:bg-slate-100"
+                }`}
             data-testid={`admin-tab-${label.toLowerCase()}`}
         >
             {icon} {label}
@@ -273,9 +272,8 @@ function PhotoManager() {
                     onDragLeave={() => setDragOver(false)}
                     onDrop={onDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className={`cursor-pointer rounded-xl border-2 border-dashed transition-colors p-10 text-center ${
-                        dragOver ? "border-orange-400 bg-orange-50" : "border-slate-300 hover:border-orange-300 hover:bg-orange-50/30"
-                    }`}
+                    className={`cursor-pointer rounded-xl border-2 border-dashed transition-colors p-10 text-center ${dragOver ? "border-orange-400 bg-orange-50" : "border-slate-300 hover:border-orange-300 hover:bg-orange-50/30"
+                        }`}
                     data-testid="dropzone"
                 >
                     <Upload className="w-10 h-10 mx-auto text-slate-400" />
@@ -404,9 +402,8 @@ function PhotoManager() {
                             <button
                                 key={c}
                                 onClick={() => setFilter(c)}
-                                className={`px-3 py-1.5 rounded-full text-xs font-semibold ${
-                                    filter === c ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                                }`}
+                                className={`px-3 py-1.5 rounded-full text-xs font-semibold ${filter === c ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                                    }`}
                                 data-testid={`filter-${c.replace(/[^a-z0-9]/gi, "-")}`}
                             >
                                 {c}
@@ -436,13 +433,12 @@ function PhotoManager() {
 
 function serviceKeyLabel(k) {
     const map = {
-        wood: "Luxury Wood Fencing",
+        wood: "Cedar Fencing",
         metal: "Metal Fencing",
-        privacy: "Privacy & Security",
         gates: "Custom Gates & Automation",
         chainlink: "Chain Link Fences",
         vinyl: "Vinyl Fencing",
-        glass: "Glass Railings",
+
     };
     return map[k] || k;
 }

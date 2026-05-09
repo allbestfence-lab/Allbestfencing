@@ -28,7 +28,7 @@ export const SERVICE_AREAS = [
 export const SERVICES = [
     {
         id: "wood",
-        title: "Luxury Wood Fencing",
+        title: "Cedar Fencing",
         short: "Premium cedar & exotic hardwoods",
         description:
             "Western red cedar, pressure-treated pine and exotic hardwood privacy fences — hand-finished for a timeless natural look.",
@@ -42,16 +42,7 @@ export const SERVICES = [
         description:
             "Powder-coated aluminum and wrought-iron fencing built for security and curb appeal. Weather-proof and engineered to last decades.",
         image: "/img/metal.png",
-        span: "md:col-span-4 md:row-span-1",
-    },
-    {
-        id: "privacy",
-        title: "Privacy & Security",
-        short: "Maximum protection & peace of mind",
-        description:
-            "Tall privacy solutions with lattice toppers, sound-dampening panels and anti-climb geometry for residential and commercial sites.",
-        image: "https://images.unsplash.com/photo-1726471809607-b7f016a1696e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkYXJrJTIwaG91c2UlMjBleHRlcmlvcnxlbnwwfHx8fDE3Nzc5MTgwNjl8MA&ixlib=rb-4.1.0&q=85",
-        span: "md:col-span-3 md:row-span-1",
+        span: "md:col-span-7 md:row-span-1",
     },
     {
         id: "gates",
@@ -60,7 +51,7 @@ export const SERVICES = [
         description:
             "Swing, slide and cantilever gates — wired with keypads, remote opener and smartphone control for modern convenience.",
         image: "/img/metal.png",
-        span: "md:col-span-4 md:row-span-1",
+        span: "md:col-span-7 md:row-span-1",
     },
     {
         id: "chainlink",
@@ -69,7 +60,7 @@ export const SERVICES = [
         description:
             "Galvanized and vinyl-coated chain link for large properties, job sites, sports courts and industrial yards.",
         image: "https://images.unsplash.com/photo-1772284650738-b1ce223e5ab3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwxfHxjaGFpbiUyMGxpbmslMjBmZW5jZSUyMHN0cnVjdHVyZXxlbnwwfHx8fDE3Nzc5MTgwODZ8MA&ixlib=rb-4.1.0&q=85",
-        span: "md:col-span-4 md:row-span-1",
+        span: "md:col-span-6 md:row-span-1",
     },
     {
         id: "vinyl",
@@ -78,22 +69,13 @@ export const SERVICES = [
         description:
             "Premium UV-stable vinyl fencing that looks new for decades — privacy, semi-privacy, and ranch styles available.",
         image: "https://images.pexels.com/photos/29672245/pexels-photo-29672245.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        span: "md:col-span-4 md:row-span-1",
-    },
-    {
-        id: "glass",
-        title: "Glass Railings",
-        short: "Modern, unobstructed views",
-        description:
-            "Tempered-glass deck and pool railings with stainless or aluminum frames — engineered for safety and stunning sight lines.",
-        image: "https://images.pexels.com/photos/4948974/pexels-photo-4948974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
-        span: "md:col-span-4 md:row-span-1",
+        span: "md:col-span-6 md:row-span-1",
     },
 ];
 
 export const PORTFOLIO_CATEGORIES = [
     "All",
-    "Wood Fence",
+    "Cedar Fence",
     "Metal Fence",
     "Chain-link",
     "Vinyl/PVC",

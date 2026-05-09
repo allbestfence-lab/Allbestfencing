@@ -66,20 +66,20 @@ export default function Hero() {
                 >
                     <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-abf-wood font-semibold mb-6">
                         <span className="w-8 h-px bg-abf-wood/60" />
-                        Greater Vancouver · Since 2014
+                        Greater Vancouver & Fraser Valley · Since 2014
                     </div>
                     <h1
                         className="font-display text-5xl sm:text-6xl lg:text-7xl xl:text-[84px] leading-[0.95] font-bold tracking-tighter text-slate-900"
                         data-testid="hero-headline"
                     >
-                        We don't just build fences.
+                        Quality Fencing for Safer,
                         <br />
                         <span className="text-gradient-warm">
-                            We build security.
+                            Stronger Properties.
                         </span>
                     </h1>
                     <p className="mt-7 text-lg md:text-xl text-slate-600 max-w-xl leading-relaxed">
-                        Premium wood, aluminum, privacy, vinyl and custom gate
+                        Cedar Fencing, Metal Fencing, vinyl Fencing and custom gate
                         installations engineered to elevate your property's
                         security and curb appeal.
                     </p>
